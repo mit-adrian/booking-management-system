@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { Menu, X, Phone, Mail } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const [activePopover, setActivePopover] = useState<"phone" | "email" | null>(
+    null,
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,32 +20,124 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        setActivePopover(null);
+      }
+    }
+
+    if (activePopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [activePopover]);
+
   return (
     <>
       {/* TOP BAR - Desktop Only */}
-      {/* TOP BAR - Desktop Only */}
-      <div className="hidden lg:block bg-black text-white text-sm">
+      <div className="hidden lg:block bg-black text-white text-sm relative z-60">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-between h-10">
+            <div>24-hour Rental Service</div>
             <div className="flex items-center gap-6">
-              <a
-                href="tel:+639XXXXXXXXX"
-                className="flex items-center gap-2 hover:opacity-80"
-              >
-                <Phone size={14} />
-                +63 9XX XXX XXXX
-              </a>
+              <div className="flex items-center gap-6">
+                {/* PHONE */}
+                <div
+                  className="relative"
+                  ref={activePopover ? popoverRef : null}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePopover(
+                        activePopover === "phone" ? null : "phone",
+                      );
+                    }}
+                    className="flex items-center gap-2 hover:opacity-80"
+                  >
+                    <Phone size={14} />
+                    +63 9XX XXX XXXX
+                  </button>
 
-              <a
-                href="mailto:info@boundlesslimo.com"
-                className="flex items-center gap-2 hover:opacity-80"
-              >
-                <Mail size={14} />
-                info@boundlesslimo.com
-              </a>
+                  {activePopover === "phone" && (
+                    <div className="absolute right-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-60">
+                      <button
+                        onClick={() => {
+                          window.location.href = "tel:+639XXXXXXXXX";
+                          setActivePopover(null);
+                        }}
+                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                      >
+                        Call Number
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText("+639XXXXXXXXX");
+                          setActivePopover(null);
+                        }}
+                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                      >
+                        Copy Number
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* EMAIL */}
+                <div
+                  className="relative"
+                  ref={activePopover ? popoverRef : null}
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePopover(
+                        activePopover === "email" ? null : "email",
+                      );
+                    }}
+                    className="flex items-center gap-2 hover:opacity-80"
+                  >
+                    <Mail size={14} />
+                    info@boundlesslimo.com
+                  </button>
+
+                  {activePopover === "email" && (
+                    <div className="absolute right-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-60">
+                      <button
+                        onClick={() => {
+                          window.location.href =
+                            "mailto:info@boundlesslimo.com";
+                          setActivePopover(null);
+                        }}
+                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                      >
+                        Send Email
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            "info@boundlesslimo.com",
+                          );
+                          setActivePopover(null);
+                        }}
+                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                      >
+                        Copy Email
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-
-            <div>Open 24/7</div>
           </div>
         </div>
       </div>
@@ -57,26 +154,36 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              <img
+              {/* <img
                 src="/logo1-45x45.png"
                 alt="Boundless Limousines"
                 className="h-10 w-auto object-contain"
-              />
-              <h2>
-                <span>Boundless</span>
-                <br />
-                <span>Limousines</span>
-              </h2>
+              /> */}
+              <h4 className="font-semibold uppercase">
+                Boundless <span className="text-secondary">Limousine</span>
+              </h4>
             </Link>
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-8 text-sm font-medium uppercase tracking-wider">
-              <Link to="/">Home</Link>
-              <Link to="/fleet">Our Fleet</Link>
-              <Link to="/services">Our Services</Link>
-              <Link to="/about">About</Link>
-              <Link to="/blog">Blog</Link>
-              <Link to="/contact">Contact</Link>
+              <Link to="/" className="hover:text-secondary">
+                Home
+              </Link>
+              <Link to="/fleet" className="hover:text-secondary">
+                Our Fleet
+              </Link>
+              <Link to="/services" className="hover:text-secondary">
+                Our Services
+              </Link>
+              <Link to="/about" className="hover:text-secondary">
+                About Us
+              </Link>
+              <Link to="/blog" className="hover:text-secondary">
+                Blog
+              </Link>
+              <Link to="/contact" className="hover:text-secondary">
+                Contact Us
+              </Link>
 
               <Link
                 to="/booking"
@@ -88,17 +195,89 @@ export default function Navbar() {
 
             {/* Mobile Right Side */}
             <div className="flex items-center gap-4 lg:hidden">
-              {/* Phone Icon (Important for limo business) */}
-              <a href="tel:+639XXXXXXXXX" className="hover:opacity-80">
-                <Phone size={22} />
-              </a>
-
-              <a
-                href="mailto:info@boundlesslimo.com"
-                className="flex items-center gap-2 hover:opacity-80"
+              {/* PHONE */}
+              <div
+                className="relative"
+                ref={activePopover === "phone" ? popoverRef : null}
               >
-                <Mail size={22} />
-              </a>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActivePopover(
+                      activePopover === "phone" ? null : "phone",
+                    );
+                  }}
+                  className="hover:opacity-80"
+                >
+                  <Phone size={22} />
+                </button>
+
+                {activePopover === "phone" && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-70">
+                    <button
+                      onClick={() => {
+                        window.location.href = "tel:+639XXXXXXXXX";
+                        setActivePopover(null);
+                      }}
+                      className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    >
+                      Call Number
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText("+639XXXXXXXXX");
+                        setActivePopover(null);
+                      }}
+                      className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    >
+                      Copy Number
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* EMAIL */}
+              <div
+                className="relative"
+                ref={activePopover === "email" ? popoverRef : null}
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActivePopover(
+                      activePopover === "email" ? null : "email",
+                    );
+                  }}
+                  className="hover:opacity-80"
+                >
+                  <Mail size={22} />
+                </button>
+
+                {activePopover === "email" && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-70">
+                    <button
+                      onClick={() => {
+                        window.location.href = "mailto:info@boundlesslimo.com";
+                        setActivePopover(null);
+                      }}
+                      className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    >
+                      Send Email
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText("info@boundlesslimo.com");
+                        setActivePopover(null);
+                      }}
+                      className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    >
+                      Copy Email
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {/* Hamburger */}
               <button onClick={() => setIsMobileOpen(!isMobileOpen)}>
@@ -126,13 +305,13 @@ export default function Navbar() {
                 Our Services
               </Link>
               <Link onClick={() => setIsMobileOpen(false)} to="/about">
-                About
+                About Us
               </Link>
               <Link onClick={() => setIsMobileOpen(false)} to="/blog">
                 Blog
               </Link>
               <Link onClick={() => setIsMobileOpen(false)} to="/contact">
-                Contact
+                Contact Us
               </Link>
 
               <Link
