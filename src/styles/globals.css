@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #ffffff;
+  --color-text: #0f172a;
+  --color-primary: #f0143c;
+  --color-secondary: #c8a45c;
+  --color-border: #e5e7eb;
+
+  --font-heading: "Poppins", sans-serif;
+  --font-navbar: "Poppins", sans-serif;
+  --font-body: "Poppins", sans-serif;
+  --font-paragraph: "Poppins", sans-serif;
+  --font-button: "Poppins", sans-serif;
+}
+
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
