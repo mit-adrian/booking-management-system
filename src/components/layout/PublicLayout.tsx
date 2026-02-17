@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingThemeToggle from "./FloatingThemeToggle";
-import FloatingContactStack from "./FloatingContactStack";
+// import FloatingContactStack from "./FloatingContactStack";
 
 export default function PublicLayout() {
   return (
@@ -13,7 +13,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <FloatingThemeToggle />
-      <FloatingContactStack />
+      {/* <FloatingContactStack /> */}
     </div>
   );
 }
