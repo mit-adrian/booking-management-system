@@ -1,73 +1,222 @@
-# React + TypeScript + Vite
+# 🚘 Booking Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Booking Managemen System](src/assets/githubrepo-img.png)
 
-Currently, two official plugins are available:
+### 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Vercel Deployment: 👉 https://booking-management-system-blue.vercel.app/
 
-## React Compiler
+<br>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ✅ Requirements Coverage
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1️⃣ Match the sample Layout
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Pixel-aligned UI structure
+- Sectioned booking flow (Trip → Contant → Passenger)
+- Toggled for One-Way / Hourly
+- Styled input components with icons
+- Clean card-based layout
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 2️⃣ Fully Responsive
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Desktop (max-width container layout)
+- Tablet (grid collapse properly)
+- Mobile (stacked inputs, touch friendly)
+- Tailwind responsive utilities used throughout
+
+### 3️⃣ Input Validation
+
+Client-side validation includes:
+
+- Pickup address required
+- Dropoff required (for one-way)
+- Date & Time required
+- Phone required
+- First Name required
+- Last Name required
+- Email required
+- Minimum 1 passenger.<br>
+
+NOTE: Validation errors are displayed inline under each input forms / field.
+
+### 4️⃣ Google Maps API integration
+
+Implemented using:
+
+- @react-google-maps/api
+- Places Autocomplete
+- DirectionService
+
+Features:
+
+- Address autocomplete for pickup and dropoff
+- Airport mode support
+- Distance calculation
+- Estimated travel time calculation
+
+Distance & duration update automatically when:
+
+- Pickup and dropoff are both populated with destination
+
+### 5️⃣ Phone Recognition Logic
+
+Mock customer database implemented.
+
+Behavior:
+
+1. Try to enter this Philippine mobile number → `09171234567`
+2. If phone `exists` inside the Mock customer data:<br>
+   `Auto-fills First Name, Last Name, Email + Display greeting message`
+
+`If phone not found:`
+
+- User must manually enter contact details
+
+This stimulates returning vs new customer behavior.
+
+### 6️⃣ Basic Mock API Submission
+
+Booking submission:
+
+- validates form
+- Sends booking data to mock async function
+- Displays success message
+- Resets entire form state (including route info)
+
+---
+
+### 🏗️ Architecture
+
+Feature-based structure:
+
+```
+src/
+└──features/
+│   ├── booking/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── Booking Page.tsx
+│   │   ├── services.ts
+│   │   └── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Separation of concers:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- UI components
+- Business logic (hooks)
+- API simulation (services)
+- Routing isolated
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+### 🔐 API Key Security
+
+- API key stored in environment variable
+- Website restricted via Google Cloud Console
+- Not hardcoded in repository
+
+---
+
+### ⚒️ How to Run Locally
+
 ```
+Step #1 → git clone https://github.com/your-repo
+Step #2 → cd booking-management-system
+Step #3 → npm install
+Step #4 → npm run dev
+```
+
+📕 Environment variable required:
+
+```
+VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
+```
+
+---
+
+### 🔥 Future Improvements
+
+- Real backend integration
+- Pricing calculation based on distance
+- Auth-based booking history
+- Admin dashboard
+- Server-side validation
+- Rate limiting for API calls
+
+<br>
+<br>
+
+## 👀 Route Access Control
+
+`The application implements route-level access control using React Router.`
+
+### 🏪 Public Routes
+
+- `/`
+- `/fleet`
+- `/services`
+- `/booking`
+- `/contact`
+
+These routes are wrapped in `PublicLayout`.
+
+### 🔎 Protected Routes
+
+- `/dashboard`
+
+Protected routes use:
+
+- `ProtectedLayout`
+- Role validation (`allowedRoles`)
+- Auth state from `useAuth` hook
+
+If the user is unauthorized, they are redirected.
+
+<br>
+<br>
+
+## ✅ Tech Stack
+
+### 🚪 Frontend
+
+- React (TypeScript)
+- Vite
+- Tailwind CSS
+- Google Maps API
+
+### 📀 Backend
+
+- Mock API
+- Simulated database
+
+### 🤳🏻 Future Backend Implementation
+
+While this project currently uses a mock API layer (in-memory data simulation) as required by the technical test, it is structured to easilt support a real backend integration.
+
+In a production environment, the following backend infra and architecture would be implemented:
+
+### 🗄️ Database
+
+- PostgreSQL (relational) or MongoDB (document-based)
+
+- Proper schema for
+  - Customer
+  - Bookings
+  - Vehicles
+  - Pricing rules
+
+### 🌐 Apil Layer
+
+- REST API (Node.js/Express or Django REST Framework)
+- Endpoints:
+  - `POST /api/bookings`
+  - `GET /api/customers/:phone`
+  - `GET /api/pricing`
+
+### 🚀 Deployment
+
+- Backend deployed separately (e.g Railyway, Render, AWS, or DigitalOcean)
+- Frontend connected via environment-based API URL
