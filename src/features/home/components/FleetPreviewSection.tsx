@@ -1,22 +1,25 @@
 import { Users, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
+import sedan from "@/assets/fleet-images/sedan2.png";
+import suv from "@/assets/fleet-images/premium-suv4.png";
+import limo from "@/assets/fleet-images/stretch-limo.png";
 
 const fleet = [
   {
     name: "Luxury Sedan",
-    image: "src/assets/fleet-images/sedan2.png",
+    image: sedan,
     passengers: "3 Passengers",
     luggage: "3 Luggage",
   },
   {
     name: "Premium SUV",
-    image: "src/assets/fleet-images/premium-suv4.png",
+    image: suv,
     passengers: "6 Passengers",
     luggage: "6 Luggage",
   },
   {
     name: "Stretch Limousine",
-    image: "src/assets/fleet-images/stretch-limo.png",
+    image: limo,
     passengers: "8–10 Passengers",
     luggage: "6 Luggage",
   },
