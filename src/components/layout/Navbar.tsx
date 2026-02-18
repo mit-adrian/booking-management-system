@@ -161,28 +161,27 @@ export default function Navbar() {
 
             {/* Desktop Menu */}
             <div className="hidden xl:flex items-center gap-8 text-sm font-medium uppercase tracking-wider">
-              <Link to="/" className="hover:text-secondary">
-                Home
-              </Link>
-              <Link to="/fleet" className="hover:text-secondary">
-                Our Fleet
-              </Link>
-              <Link to="/services" className="hover:text-secondary">
-                Our Services
-              </Link>
-              <Link to="/about" className="hover:text-secondary">
-                About Us
-              </Link>
-              <Link to="/blog" className="hover:text-secondary">
-                Blog
-              </Link>
-              <Link to="/contact" className="hover:text-secondary">
-                Contact Us
-              </Link>
+              {[
+                { name: "Home", path: "/" },
+                { name: "Our Fleet", path: "/fleet" },
+                { name: "Our Services", path: "/services" },
+                { name: "About Us", path: "/about" },
+                { name: "Blog", path: "/blog" },
+                { name: "Contact Us", path: "/contact" },
+              ].map((item) => (
+                <Link key={item.name} to={item.path} className="relative group">
+                  <span className="hover:text-secondary transition">
+                    {item.name}
+                  </span>
+
+                  {/* Animated underline */}
+                  <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              ))}
 
               <Link
                 to="/booking"
-                className="bg-secondary text-white px-5 py-2 rounded font-semibold hover:opacity-90 transition"
+                className="bg-secondary text-white px-5 py-2 rounded font-semibold hover:opacity-90 transition hover:text-black"
               >
                 Book Now
               </Link>
@@ -315,7 +314,7 @@ export default function Navbar() {
               <Link
                 onClick={() => setIsMobileOpen(false)}
                 to="/booking"
-                className="bg-secondary text-white px-5 py-2 rounded font-semibold hover:opacity-90 transition"
+                className="bg-secondary text-black px-5 py-2 rounded font-semibold hover:opacity-90 transition items-center justify-center flex"
               >
                 Book Now
               </Link>
