@@ -201,11 +201,31 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
+      {/* Bottom Bar */}
       <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-8 py-6 text-center">
+        <div className="max-w-7xl mx-auto px-8 py-6 text-center space-y-3">
           <p className="text-sm text-gray-500">
-            All Rights Reserved. © 2026 Boundless Limousine, LLC.
+            © {new Date().getFullYear()} Boundless Limousine, Inc. All rights
+            reserved.
           </p>
+
+          <div className="text-xs text-gray-500 flex items-center justify-center gap-4">
+            <Link
+              to="/privacy-policy"
+              className="hover:text-secondary transition"
+            >
+              Privacy Policy
+            </Link>
+
+            <span className="text-gray-600">|</span>
+
+            <Link
+              to="/terms-of-service"
+              className="hover:text-secondary transition"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -7,7 +7,7 @@ export interface MockCustomer {
   email: string;
 }
 
-const mockDatabase: MockCustomer[] = [
+const mockCustomers: MockCustomer[] = [
   {
     phone: "09171234567",
     firstName: "Adrian",
@@ -16,10 +16,12 @@ const mockDatabase: MockCustomer[] = [
   },
 ];
 
-export function checkPhoneNumber(phone: string) {
-  return new Promise<MockCustomer | null>((resolve) => {
+export async function checkPhoneNumber(
+  phone: string,
+): Promise<MockCustomer | null> {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      const found = mockDatabase.find((customer) => customer.phone === phone);
+      const found = mockCustomers.find((customer) => customer.phone === phone);
       resolve(found || null);
     }, 800);
   });
@@ -28,17 +30,45 @@ export function checkPhoneNumber(phone: string) {
 export interface BookingResponse {
   success: boolean;
   message: string;
+  bookingId?: string;
 }
 
-export function submitBooking(data: BookingData): Promise<BookingResponse> {
-  return new Promise((resolve) => {
+export async function submitBooking(
+  data: BookingData,
+): Promise<BookingResponse> {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("Mock API received:", data);
+      if (!data.pickupAddress || !data.phone) {
+        reject(new Error("Missing required booking fields."));
+        return;
+      }
+
+      const existingBookings = JSON.parse(
+        localStorage.getItem("mock_bookings") || "[]",
+      );
+
+      const bookingId = `BK-${Date.now()}`;
+
+      const newBooking = {
+        id: bookingId,
+        createdAt: new Date().toISOString(),
+        ...data,
+      };
+
+      localStorage.setItem(
+        "mock_bookings",
+        JSON.stringify([...existingBookings, newBooking]),
+      );
+
+      // 🔥 Notify admin dashboard
+      window.dispatchEvent(new Event("mock-booking-updated"));
 
       resolve({
         success: true,
         message: "Booking successfully submitted!",
+        bookingId,
       });
-    }, 1500);
+    }, 1200);
+    console.log("submitBooking called");
   });
 }

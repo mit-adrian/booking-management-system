@@ -8,7 +8,7 @@ interface Props {
   onSelect: (value: string) => void;
   placeholder?: string;
   className?: string;
-  types?: string[]; // 👈 NEW
+  types?: string[];
 }
 
 export function GoogleAddressInput({
@@ -17,7 +17,7 @@ export function GoogleAddressInput({
   onSelect,
   placeholder,
   className,
-  types = ["geocode"], // default
+  types = ["geocode"],
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 

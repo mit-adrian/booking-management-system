@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 export default function BookingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { booking, errors, updateField, validate, resetBooking } = useBooking();
 
@@ -21,6 +22,7 @@ export default function BookingPage() {
     libraries: ["places"],
   });
 
+  // Auto clear success
   useEffect(() => {
     if (!successMessage) return;
 
@@ -35,24 +37,32 @@ export default function BookingPage() {
   if (!isLoaded) return <p>Loading Maps...</p>;
 
   const handleSubmit = async () => {
-    if (!validate()) return;
+    console.log("Submitting...");
+    if (!validate()) {
+      console.log("Validation failed");
+      return;
+    }
 
     try {
       setSubmitting(true);
       setSuccessMessage("");
+      setErrorMessage("");
 
       const response = await submitBooking(booking);
 
-      if (response.success) {
-        resetBooking();
+      setSuccessMessage(
+        `${response.message} (Booking ID: ${response.bookingId})`,
+      );
 
-        // Small delay before showing success
-        setTimeout(() => {
-          setSuccessMessage(response.message);
-        }, 400); // 400ms feels smooth
-      }
-    } catch (error) {
+      resetBooking();
+    } catch (error: unknown) {
       console.error("Submission error:", error);
+
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Something went wrong.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -76,15 +86,29 @@ export default function BookingPage() {
           updateField={updateField}
         />
 
-        {/* ✅ Distance Display */}
         {routeInfo && (
-          <div className="p-4 bg-gray-50 dark:bg-slate-800 border rounded-lg">
-            <p className="text-sm">
-              <strong>Distance:</strong> {routeInfo.distanceText}
-            </p>
-            <p className="text-sm">
-              <strong>Estimated time:</strong> {routeInfo.durationText}
-            </p>
+          <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-linear-to-br from-slate-900 to-slate-800 p-6 shadow-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-wider text-gray-400">
+                  Total Distance
+                </p>
+                <p className="text-xl font-semibold text-white">
+                  {routeInfo.distanceText}
+                </p>
+              </div>
+
+              <div className="hidden sm:block h-10 w-px bg-slate-700" />
+
+              <div>
+                <p className="text-xs uppercase tracking-wider text-gray-400">
+                  Estimated Time
+                </p>
+                <p className="text-xl font-semibold text-secondary">
+                  {routeInfo.durationText}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
@@ -108,9 +132,17 @@ export default function BookingPage() {
           {submitting ? "Submitting..." : "Continue"}
         </button>
 
+        {/* Success Message */}
         {successMessage && (
           <div className="p-4 bg-green-50 border border-green-200 rounded text-green-700">
             {successMessage}
+          </div>
+        )}
+
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded text-red-700">
+            {errorMessage}
           </div>
         )}
       </div>

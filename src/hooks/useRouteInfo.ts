@@ -1,3 +1,5 @@
+/// <reference types="google.maps" />
+
 import { useEffect, useState } from "react";
 
 interface RouteInfo {
@@ -5,39 +7,43 @@ interface RouteInfo {
   durationText: string;
 }
 
-export function useRouteInfo(pickupAddress: string, dropoffAddress: string) {
+export function useRouteInfo(
+  pickup: string,
+  dropoff: string,
+): RouteInfo | null {
   const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
 
   useEffect(() => {
-    if (!window.google) return;
-    if (!pickupAddress || !dropoffAddress) return;
+    if (!pickup || !dropoff || !window.google) {
+      return; // 🚀 Just exit. No setState here.
+    }
 
-    const service = new window.google.maps.DirectionsService();
+    const service = new window.google.maps.DistanceMatrixService();
 
-    service.route(
+    service.getDistanceMatrix(
       {
-        origin: pickupAddress,
-        destination: dropoffAddress,
+        origins: [pickup],
+        destinations: [dropoff],
         travelMode: window.google.maps.TravelMode.DRIVING,
+        unitSystem: window.google.maps.UnitSystem.IMPERIAL,
       },
-      (result, status) => {
-        if (status === "OK" && result?.routes[0]?.legs[0]) {
-          const leg = result.routes[0].legs[0];
+      (response, status) => {
+        if (
+          status === "OK" &&
+          response?.rows[0]?.elements[0]?.status === "OK"
+        ) {
+          const element = response.rows[0].elements[0];
 
           setRouteInfo({
-            distanceText: leg.distance?.text || "",
-            durationText: leg.duration?.text || "",
+            distanceText: element.distance.text,
+            durationText: element.duration.text,
           });
         } else {
           setRouteInfo(null);
         }
       },
     );
-  }, [pickupAddress, dropoffAddress]);
-
-  if (!pickupAddress || !dropoffAddress) {
-    return null;
-  }
+  }, [pickup, dropoff]);
 
   return routeInfo;
 }

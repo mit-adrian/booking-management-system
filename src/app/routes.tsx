@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import PublicLayout from "@/components/layout/PublicLayout";
-import ProtectedLayout from "@/components/layout/ProtectedLayout";
+import AdminBookingsPage from "@/features/admin/AdminBookingsPage";
 
 import HomePage from "@/features/home/HomePage";
 import FleetPage from "@/features/fleet/FleetPage";
@@ -12,6 +12,7 @@ import BookingPage from "@/features/booking/BookingPage";
 
 import LoginPage from "@/features/auth/LoginPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
+import ProtectedLayout from "@/components/layout/ProtectedLayout";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,9 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <ProtectedLayout allowedRoles={["admin"]} />,
-    children: [{ index: true, element: <DashboardPage /> }],
+    children: [
+      { index: true, element: <DashboardPage /> },
+      { path: "bookings", element: <AdminBookingsPage /> },
+    ],
   },
 ]);

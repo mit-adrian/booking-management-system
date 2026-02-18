@@ -26,7 +26,9 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <div className="p-8 shadow-lg rounded-lg bg-white dark:bg-slate-800 w-96">
-        <h1 className="text-2xl font-semibold mb-6 text-center">Login</h1>
+        <h1 className="text-white text-2xl font-semibold mb-6 text-center">
+          Login
+        </h1>
 
         <button
           onClick={handleLogin}
