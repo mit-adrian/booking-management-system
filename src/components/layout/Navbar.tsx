@@ -291,7 +291,7 @@ export default function Navbar() {
 
         {/* Mobile Dropdown */}
         {isMobileOpen && (
-          <div className="absolute top-20 left-0 w-full bg-white dark:bg-slate-900 border-t shadow-lg lg:hidden">
+          <div className="absolute top-full left-0 w-full bg-white dark:bg-slate-900 shadow-lg xl:hidden">
             <div className="flex flex-col px-6 py-6 space-y-5 text-sm font-medium uppercase tracking-wide">
               <Link onClick={() => setIsMobileOpen(false)} to="/">
                 Home
