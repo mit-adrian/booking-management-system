@@ -22,7 +22,7 @@ export default function CallToActionSection() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               to="/booking"
-              className="bg-secondary text-black px-8 py-4 rounded font-semibold text-center hover:opacity-90 transition"
+              className="bg-secondary text-white px-8 py-4 rounded font-semibold text-center hover:opacity-90 transition hover:text-black"
             >
               Book Now
             </Link>
