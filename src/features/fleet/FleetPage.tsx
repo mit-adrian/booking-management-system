@@ -1,3 +1,5 @@
+import PageInProgress from "@/components/shared/PageInProgress";
+
 export default function FleetPage() {
-  return <h1>Fleet Page</h1>;
+  return <PageInProgress title="Our Fleet" />;
 }

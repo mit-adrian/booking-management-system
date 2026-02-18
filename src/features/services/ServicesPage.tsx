@@ -1,3 +1,5 @@
+import PageInProgress from "@/components/shared/PageInProgress";
+
 export default function ServicesPage() {
-  return <h1>Services Page</h1>;
+  return <PageInProgress title="Our Services" />;
 }

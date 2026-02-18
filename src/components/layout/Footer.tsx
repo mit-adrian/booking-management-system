@@ -1,7 +1,32 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, Facebook, Twitter, Instagram } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Footer() {
+  const [activePopover, setActivePopover] = useState<"phone" | "email" | null>(
+    null,
+  );
+  const popoverRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        setActivePopover(null);
+      }
+    }
+
+    if (activePopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [activePopover]);
+
   return (
     <footer className="bg-[#1c1c1c] text-gray-300">
       {/* Main Footer */}
@@ -9,7 +34,7 @@ export default function Footer() {
         {/* Column 1 - About */}
         <div>
           <h3 className="text-white font-semibold tracking-widest uppercase mb-6">
-            Boundless <span className="text-yellow-500">Limousine</span>
+            Boundless <span className="text-secondary">Limousine</span>
           </h3>
 
           <p className="text-sm leading-relaxed text-gray-400 text-justify">
@@ -71,21 +96,87 @@ export default function Footer() {
           </h3>
 
           <div className="space-y-5 text-sm">
-            <a
-              href="tel:+19787066226"
-              className="flex items-center gap-3 hover:text-secondary"
+            {/* PHONE */}
+            <div
+              className="relative"
+              ref={activePopover === "phone" ? popoverRef : null}
             >
-              <Phone size={16} />
-              (978) 706-6226
-            </a>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActivePopover(activePopover === "phone" ? null : "phone");
+                }}
+                className="flex items-center gap-3 hover:text-secondary"
+              >
+                <Phone size={16} />
+                (978) 706-6226
+              </button>
 
-            <a
-              href="mailto:info@boundlesslimo.com"
-              className="flex items-center gap-3 hover:text-secondary"
+              {activePopover === "phone" && (
+                <div className="absolute left-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-60">
+                  <button
+                    onClick={() => {
+                      window.location.href = "tel:+19787066226";
+                      setActivePopover(null);
+                    }}
+                    className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  >
+                    Call Number
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("+19787066226");
+                      setActivePopover(null);
+                    }}
+                    className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  >
+                    Copy Number
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* EMAIL */}
+            <div
+              className="relative"
+              ref={activePopover === "email" ? popoverRef : null}
             >
-              <Mail size={16} />
-              info@boundlesslimo.com
-            </a>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActivePopover(activePopover === "email" ? null : "email");
+                }}
+                className="flex items-center gap-3 hover:text-secondary"
+              >
+                <Mail size={16} />
+                info@boundlesslimo.com
+              </button>
+
+              {activePopover === "email" && (
+                <div className="absolute left-0 mt-2 w-44 bg-white text-black rounded shadow-lg p-2 text-sm z-60">
+                  <button
+                    onClick={() => {
+                      window.location.href = "mailto:info@boundlesslimo.com";
+                      setActivePopover(null);
+                    }}
+                    className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  >
+                    Send Email
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("info@boundlesslimo.com");
+                      setActivePopover(null);
+                    }}
+                    className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  >
+                    Copy Email
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

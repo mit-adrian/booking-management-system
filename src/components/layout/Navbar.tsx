@@ -42,10 +42,10 @@ export default function Navbar() {
   return (
     <>
       {/* TOP BAR - Desktop Only */}
-      <div className="hidden lg:block bg-black text-white text-sm relative z-60">
+      <div className="hidden xl:block bg-black text-white text-sm relative z-60">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-between h-10">
-            <div>24-hour Rental Service</div>
+            <div>24-Hour Rental Service</div>
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-6">
                 {/* PHONE */}
@@ -151,21 +151,16 @@ export default function Navbar() {
         `}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              {/* <img
-                src="/logo1-45x45.png"
-                alt="Boundless Limousines"
-                className="h-10 w-auto object-contain"
-              /> */}
               <h4 className="font-semibold uppercase">
                 Boundless <span className="text-secondary">Limousine</span>
               </h4>
             </Link>
 
             {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center gap-8 text-sm font-medium uppercase tracking-wider">
+            <div className="hidden xl:flex items-center gap-8 text-sm font-medium uppercase tracking-wider">
               <Link to="/" className="hover:text-secondary">
                 Home
               </Link>
@@ -194,7 +189,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Right Side */}
-            <div className="flex items-center gap-4 lg:hidden">
+            <div className="flex items-center gap-4 xl:hidden h-20">
               {/* PHONE */}
               <div
                 className="relative"
@@ -207,9 +202,9 @@ export default function Navbar() {
                       activePopover === "phone" ? null : "phone",
                     );
                   }}
-                  className="hover:opacity-80"
+                  className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-gray-100 transition"
                 >
-                  <Phone size={22} />
+                  <Phone className="h-6 w-6" />
                 </button>
 
                 {activePopover === "phone" && (
@@ -249,9 +244,9 @@ export default function Navbar() {
                       activePopover === "email" ? null : "email",
                     );
                   }}
-                  className="hover:opacity-80"
+                  className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-gray-100 transition"
                 >
-                  <Mail size={22} />
+                  <Mail className="h-6 w-6" />
                 </button>
 
                 {activePopover === "email" && (
@@ -280,7 +275,10 @@ export default function Navbar() {
               </div>
 
               {/* Hamburger */}
-              <button onClick={() => setIsMobileOpen(!isMobileOpen)}>
+              <button
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-gray-100 transition"
+              >
                 {isMobileOpen ? (
                   <X className="h-6 w-6" />
                 ) : (

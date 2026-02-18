@@ -1,3 +1,5 @@
+import PageInProgress from "@/components/shared/PageInProgress";
+
 export default function BlogPage() {
-  return <h1>Blog Page</h1>;
+  return <PageInProgress title="Our Blog" />;
 }

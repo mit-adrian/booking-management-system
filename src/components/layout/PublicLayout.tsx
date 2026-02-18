@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingThemeToggle from "./FloatingThemeToggle";
+import FloatingScreenSizeTracker from "./FloatingScreenSizeTracker";
 // import FloatingContactStack from "./FloatingContactStack";
 
 export default function PublicLayout() {
@@ -13,6 +14,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <FloatingThemeToggle />
+      <FloatingScreenSizeTracker />
       {/* <FloatingContactStack /> */}
     </div>
   );

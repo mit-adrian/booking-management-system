@@ -53,7 +53,7 @@ export function ContactSection({
       <h2 className="text-xl font-semibold">Contact Information</h2>
 
       <div className="relative">
-        <label className="absolute -top-2 left-3 bg-white px-1 text-xs text-gray-500">
+        <label className="absolute -top-2 left-3 bg-gray-50 px-1 text-xs text-gray-500">
           Phone
         </label>
 
@@ -67,7 +67,14 @@ export function ContactSection({
             updateField("isRecognized", false);
           }}
           onBlur={handlePhoneBlur}
-          className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+          className={`w-full bg-gray-50 rounded-lg py-3 pl-10 pr-3 border transition-all
+            ${
+              errors.phone
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-secondary focus:border-secondary"
+            }
+            focus:outline-none focus:ring-2
+          `}
         />
       </div>
 

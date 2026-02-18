@@ -1,3 +1,5 @@
+import PageInProgress from "@/components/shared/PageInProgress";
+
 export default function AboutPage() {
-  return <h1>About Page</h1>;
+  return <PageInProgress title="About Us" />;
 }
