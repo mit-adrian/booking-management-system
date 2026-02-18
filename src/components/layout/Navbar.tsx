@@ -180,7 +180,7 @@ export default function Navbar() {
               ))}
 
               <Link
-                to="/booking d"
+                to="/booking"
                 className="bg-secondary text-white px-5 py-2 rounded font-semibold hover:opacity-90 transition hover:text-black"
               >
                 Book Now

@@ -1,4 +1,4 @@
-# 🚘 Booking Management System
+# 🚘 Web App Booking Management System
 
 ![Booking Managemen System](src/assets/desktop.png)
 ![Booking Managemen System](src/assets/tablet.png)
