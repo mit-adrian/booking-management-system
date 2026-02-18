@@ -1,6 +1,8 @@
 # 🚘 Booking Management System
 
-![Booking Managemen System](src/assets/githubrepo-img.png)
+![Booking Managemen System](src/assets/desktop.png)
+![Booking Managemen System](src/assets/tablet.png)
+![Booking Managemen System](src/assets/mobile.png)
 
 ### 🚀 Live Demo
 
