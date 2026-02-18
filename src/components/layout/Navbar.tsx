@@ -45,7 +45,7 @@ export default function Navbar() {
       <div className="hidden xl:block bg-black text-white text-sm relative z-60">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-between h-10">
-            <div>24-Hour Rental Service</div>
+            <div>Premium chauffeur service available 24/7</div>
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-6">
                 {/* PHONE */}
@@ -175,12 +175,12 @@ export default function Navbar() {
                   </span>
 
                   {/* Animated underline */}
-                  <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute left-0 -bottom-1 h-px w-0 bg-secondary transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               ))}
 
               <Link
-                to="/booking"
+                to="/booking d"
                 className="bg-secondary text-white px-5 py-2 rounded font-semibold hover:opacity-90 transition hover:text-black"
               >
                 Book Now
