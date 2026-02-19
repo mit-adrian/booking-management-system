@@ -22,6 +22,14 @@ export default function BookingPage() {
     libraries: ["places"],
   });
 
+  // 🔥 Sync distance + duration into booking state
+  useEffect(() => {
+    if (routeInfo) {
+      updateField("distanceText", routeInfo.distanceText);
+      updateField("durationText", routeInfo.durationText);
+    }
+  }, [routeInfo, updateField]);
+
   // Auto clear success
   useEffect(() => {
     if (!successMessage) return;
@@ -37,11 +45,7 @@ export default function BookingPage() {
   if (!isLoaded) return <p>Loading Maps...</p>;
 
   const handleSubmit = async () => {
-    console.log("Submitting...");
-    if (!validate()) {
-      console.log("Validation failed");
-      return;
-    }
+    if (!validate()) return;
 
     try {
       setSubmitting(true);
@@ -50,8 +54,9 @@ export default function BookingPage() {
 
       const response = await submitBooking(booking);
 
+      // ✅ Use response.id from DRF
       setSuccessMessage(
-        `${response.message} (Booking ID: ${response.bookingId})`,
+        `Booking successfully submitted! (Booking ID: ${response.id})`,
       );
 
       resetBooking();
@@ -70,7 +75,7 @@ export default function BookingPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
-      <h1 className="text-3xl font-semibold mb-6">
+      <h1 className="text-2xl font-semibold mb-6">
         Let's get you on your way!
       </h1>
 
@@ -132,14 +137,12 @@ export default function BookingPage() {
           {submitting ? "Submitting..." : "Continue"}
         </button>
 
-        {/* Success Message */}
         {successMessage && (
           <div className="p-4 bg-green-50 border border-green-200 rounded text-green-700">
             {successMessage}
           </div>
         )}
 
-        {/* Error Message */}
         {errorMessage && (
           <div className="p-4 bg-red-50 border border-red-200 rounded text-red-700">
             {errorMessage}

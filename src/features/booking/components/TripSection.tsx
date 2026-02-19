@@ -41,6 +41,7 @@ export function TripSection({
               <input
                 type="date"
                 value={booking.pickupDate}
+                min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => updateField("pickupDate", e.target.value)}
                 className={`w-full bg-gray-50 border rounded-lg py-3 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-secondary ${
                   errors.pickupDate ? "border-red-500" : "border-gray-300"
@@ -92,6 +93,9 @@ export function TripSection({
         {/* Pickup Address */}
         <div>
           <div className="relative">
+            <label className="absolute -top-2 left-3 bg-gray-50 px-1 text-xs text-gray-500">
+              Location
+            </label>
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary pointer-events-none" />
 
             <GoogleAddressInput
@@ -171,6 +175,9 @@ export function TripSection({
         {/* Dropoff Address */}
         <div>
           <div className="relative">
+            <label className="absolute -top-2 left-3 bg-gray-50 px-1 text-xs text-gray-500">
+              Location
+            </label>
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary pointer-events-none" />
 
             <GoogleAddressInput

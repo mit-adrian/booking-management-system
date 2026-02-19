@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Phone } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { BookingData } from "../hooks/useBooking";
+import { lookupCustomer } from "../services";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface ContactSectionProps {
   booking: BookingData;
@@ -18,64 +20,65 @@ export function ContactSection({
 }: ContactSectionProps) {
   const [loading, setLoading] = useState(false);
 
-  const mockDatabase = [
-    {
-      phone: "09171234567",
-      firstName: "Adrian",
-      lastName: "Siangco",
-      email: "adrian@example.com",
-    },
-  ];
+  useEffect(() => {
+    const checkPhone = async () => {
+      if (!booking.phone || booking.phone.length < 10) return;
 
-  const handlePhoneBlur = () => {
-    if (!booking.phone) return;
+      try {
+        setLoading(true);
 
-    setLoading(true);
+        const result = await lookupCustomer(booking.phone);
 
-    setTimeout(() => {
-      const found = mockDatabase.find((c) => c.phone === booking.phone);
-
-      if (found) {
-        updateField("firstName", found.firstName);
-        updateField("lastName", found.lastName);
-        updateField("email", found.email);
-        updateField("isRecognized", true);
-      } else {
+        if (result.exists) {
+          updateField("firstName", result.first_name || "");
+          updateField("lastName", result.last_name || "");
+          updateField("email", result.email || "");
+          updateField("isRecognized", true);
+        } else {
+          updateField("isRecognized", false);
+        }
+      } catch (error) {
+        console.error("Lookup error:", error);
         updateField("isRecognized", false);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setLoading(false);
-    }, 800);
-  };
+    checkPhone();
+  }, [booking.phone, updateField]);
 
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Contact Information</h2>
 
-      <div className="relative">
-        <label className="absolute -top-2 left-3 bg-gray-50 px-1 text-xs text-gray-500">
-          Phone
-        </label>
+      <div className="space-y-2">
+        {/* <label className="text-sm font-medium text-gray-600">
+          Phone Number
+        </label> */}
 
-        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" />
+        <div className="relative">
+          {/* <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary z-10" /> */}
 
-        <input
-          type="tel"
-          value={booking.phone}
-          onChange={(e) => {
-            updateField("phone", e.target.value);
-            updateField("isRecognized", false);
-          }}
-          onBlur={handlePhoneBlur}
-          className={`w-full bg-gray-50 rounded-lg py-3 pl-10 pr-3 border transition-all
-            ${
-              errors.phone
-                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                : "border-gray-300 focus:ring-secondary focus:border-secondary"
-            }
-            focus:outline-none focus:ring-2
-          `}
-        />
+          <PhoneInput
+            international
+            defaultCountry="US"
+            placeholder="Enter phone number"
+            value={booking.phone}
+            onChange={(value) => {
+              updateField("phone", value || "");
+              updateField("isRecognized", false);
+            }}
+            className={`w-full bg-gray-50 rounded-lg py-3 pl-3 pr-3 border transition-all
+        ${
+          errors.phone
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-300 focus:ring-secondary"
+        }
+        focus:outline-none focus:ring-2
+      `}
+          />
+        </div>
       </div>
 
       {loading && (
