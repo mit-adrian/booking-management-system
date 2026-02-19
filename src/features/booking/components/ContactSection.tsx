@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import type { BookingData } from "../hooks/useBooking";
 import { lookupCustomer } from "../services";
-import PhoneInput from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
 interface ContactSectionProps {
@@ -22,7 +22,7 @@ export function ContactSection({
 
   useEffect(() => {
     const checkPhone = async () => {
-      if (!booking.phone || booking.phone.length < 10) return;
+      if (!booking.phone || !isValidPhoneNumber(booking.phone)) return;
 
       try {
         setLoading(true);
@@ -53,13 +53,7 @@ export function ContactSection({
       <h2 className="text-xl font-semibold">Contact Information</h2>
 
       <div className="space-y-2">
-        {/* <label className="text-sm font-medium text-gray-600">
-          Phone Number
-        </label> */}
-
         <div className="relative">
-          {/* <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary z-10" /> */}
-
           <PhoneInput
             international
             defaultCountry="US"
@@ -69,14 +63,14 @@ export function ContactSection({
               updateField("phone", value || "");
               updateField("isRecognized", false);
             }}
-            className={`w-full bg-gray-50 rounded-lg py-3 pl-3 pr-3 border transition-all
-        ${
-          errors.phone
-            ? "border-red-500 focus:ring-red-500"
-            : "border-gray-300 focus:ring-secondary"
-        }
-        focus:outline-none focus:ring-2
-      `}
+            className={`w-full bg-gray-50 rounded-lg py-3 px-3 border transition-all
+              ${
+                errors.phone
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-secondary"
+              }
+              focus:outline-none focus:ring-2
+            `}
           />
         </div>
       </div>

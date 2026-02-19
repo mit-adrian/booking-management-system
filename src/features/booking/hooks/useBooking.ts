@@ -93,6 +93,9 @@ export function useBooking() {
   const validate = () => {
     const newErrors: Record<string, string> = {};
 
+    const nameRegex = /^[A-Za-zÀ-ÿ' -]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!booking.pickupAddress) newErrors.pickupAddress = "Pickup is required";
 
     if (!booking.dropoffAddress && booking.type === "oneway")
@@ -105,10 +108,16 @@ export function useBooking() {
     if (!booking.phone) newErrors.phone = "Phone is required";
 
     if (!booking.firstName) newErrors.firstName = "First name is required";
+    else if (!nameRegex.test(booking.firstName))
+      newErrors.firstName = "First name contains invalid characters.";
 
     if (!booking.lastName) newErrors.lastName = "Last name is required";
+    else if (!nameRegex.test(booking.lastName))
+      newErrors.lastName = "Last name contains invalid characters.";
 
     if (!booking.email) newErrors.email = "Email is required";
+    else if (!emailRegex.test(booking.email))
+      newErrors.email = "Invalid email format";
 
     if (booking.passengers < 1)
       newErrors.passengers = "At least 1 passenger required";

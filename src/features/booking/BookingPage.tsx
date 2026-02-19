@@ -52,9 +52,16 @@ export default function BookingPage() {
       setSuccessMessage("");
       setErrorMessage("");
 
-      const response = await submitBooking(booking);
+      // ✅ Normalize names before sending
+      const formattedBooking = {
+        ...booking,
+        firstName: booking.firstName.trim().toLowerCase(),
+        lastName: booking.lastName.trim().toLowerCase(),
+        email: booking.email.trim(),
+      };
 
-      // ✅ Use response.id from DRF
+      const response = await submitBooking(formattedBooking);
+
       setSuccessMessage(
         `Booking successfully submitted! (Booking ID: ${response.id})`,
       );
@@ -91,7 +98,7 @@ export default function BookingPage() {
           updateField={updateField}
         />
 
-        {routeInfo && (
+        {booking.pickupAddress && booking.dropoffAddress && routeInfo && (
           <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-linear-to-br from-slate-900 to-slate-800 p-6 shadow-lg">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>

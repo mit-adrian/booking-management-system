@@ -1,5 +1,7 @@
 import type { BookingData } from "./hooks/useBooking";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export interface BookingResponse {
   id: number;
   type: string;
@@ -20,7 +22,7 @@ export interface BookingResponse {
 export async function submitBooking(
   data: BookingData,
 ): Promise<BookingResponse> {
-  const response = await fetch("http://127.0.0.1:8000/api/bookings/", {
+  const response = await fetch(`${API_BASE_URL}/api/bookings/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,8 +63,10 @@ export interface LookupCustomerResponse {
 export async function lookupCustomer(
   phone: string,
 ): Promise<LookupCustomerResponse> {
+  const encodedPhone = encodeURIComponent(phone);
+
   const response = await fetch(
-    `http://127.0.0.1:8000/api/bookings/lookup_customer/?phone=${phone}`,
+    `${API_BASE_URL}/api/bookings/lookup_customer/?phone=${encodedPhone}`,
   );
 
   const result = await response.json();

@@ -1,5 +1,3 @@
-/// <reference types="google.maps" />
-
 import { useEffect, useState } from "react";
 
 interface RouteInfo {
@@ -14,29 +12,28 @@ export function useRouteInfo(
   const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
 
   useEffect(() => {
-    if (!pickup || !dropoff || !window.google) {
-      return; // 🚀 Just exit. No setState here.
+    if (!pickup || !dropoff) {
+      return;
     }
 
-    const service = new window.google.maps.DistanceMatrixService();
+    const directionsService = new google.maps.DirectionsService();
 
-    service.getDistanceMatrix(
+    directionsService.route(
       {
-        origins: [pickup],
-        destinations: [dropoff],
-        travelMode: window.google.maps.TravelMode.DRIVING,
-        unitSystem: window.google.maps.UnitSystem.IMPERIAL,
+        origin: pickup,
+        destination: dropoff,
+        travelMode: google.maps.TravelMode.DRIVING,
       },
-      (response, status) => {
+      (result, status) => {
         if (
-          status === "OK" &&
-          response?.rows[0]?.elements[0]?.status === "OK"
+          status === google.maps.DirectionsStatus.OK &&
+          result?.routes?.length
         ) {
-          const element = response.rows[0].elements[0];
+          const leg = result.routes[0].legs[0];
 
           setRouteInfo({
-            distanceText: element.distance.text,
-            durationText: element.duration.text,
+            distanceText: leg.distance?.text || "",
+            durationText: leg.duration?.text || "",
           });
         } else {
           setRouteInfo(null);
