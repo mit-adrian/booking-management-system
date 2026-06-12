@@ -1,4 +1,4 @@
-# 🚘 Web App Booking Management System
+# 🚘 Ride Booking Web App
 
 ![Booking Managemen System](src/assets/desktop.png)
 ![Booking Managemen System](src/assets/tablet.png)
@@ -17,7 +17,7 @@ Vercel Deployment: 👉 https://booking-management-system-blue.vercel.app/
 ### 1️⃣ Match the sample Layout
 
 - Pixel-aligned UI structure
-- Sectioned booking flow (Trip → Contant → Passenger)
+- Sectioned booking flow (Trip → Contact → Passenger)
 - Toggled for One-Way / Hourly
 - Styled input components with icons
 - Clean card-based layout
@@ -77,7 +77,7 @@ Behavior:
 
 - User must manually enter contact details
 
-This stimulates returning vs new customer behavior.
+This simulates returning vs new customer behavior.
 
 ### 6️⃣ Basic Mock API Submission
 
@@ -105,7 +105,7 @@ src/
 │   │   └── README.md
 ```
 
-Separation of concers:
+Separation of concerns:
 
 - UI components
 - Business logic (hooks)
@@ -196,7 +196,7 @@ If the user is unauthorized, they are redirected.
 
 ### 🤳🏻 Future Backend Implementation
 
-While this project currently uses a mock API layer (in-memory data simulation) as required by the technical test, it is structured to easilt support a real backend integration.
+While this project currently uses a mock API layer (in-memory data simulation) as required by the technical test, it is structured to easily support a real backend integration.
 
 In a production environment, the following backend infra and architecture would be implemented:
 
@@ -210,7 +210,7 @@ In a production environment, the following backend infra and architecture would 
   - Vehicles
   - Pricing rules
 
-### 🌐 Apil Layer
+### 🌐 API Layer
 
 - REST API (Node.js/Express or Django REST Framework)
 - Endpoints:
@@ -220,5 +220,5 @@ In a production environment, the following backend infra and architecture would 
 
 ### 🚀 Deployment
 
-- Backend deployed separately (e.g Railyway, Render, AWS, or DigitalOcean)
+- Backend deployed separately (e.g Railway, Render, AWS, or DigitalOcean)
 - Frontend connected via environment-based API URL
