@@ -1,8 +1,8 @@
 # 🚘 Ride Booking Web App
 
-![Booking Managemen System](src/assets/desktop.png)
-![Booking Managemen System](src/assets/tablet.png)
-![Booking Managemen System](src/assets/mobile.png)
+[Booking Management System](src/assets/desktop.png)
+[Booking Management System](src/assets/tablet.png)
+[Booking Management System](src/assets/mobile.png)
 
 ### 🚀 Live Demo
 
